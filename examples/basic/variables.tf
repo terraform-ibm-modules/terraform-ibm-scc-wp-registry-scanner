@@ -29,7 +29,7 @@ variable "resource_tags" {
 
 variable "develop_mode" {
   type        = bool
-  description = "If true, output more logs, and reduce some wait periods"
+  description = "If set to true, increases the wait time for chart deployment and undeployment to facilitate cluster debugging, and prevents the `helm_release` resource from automatically rolling back changes if the helm deployment fails."
   default     = false
 }
 
@@ -46,21 +46,21 @@ variable "cluster_config_endpoint_type" {
 
 variable "scc_wp_instance_id" {
   type        = string
-  description = "IBM Cloud instance ID for the Workload Protect SCC instance to bind the Registry Scanner to."
+  description = "IBM Cloud instance ID for the SCC Workload Protection instance to bind the Registry Scanner to."
   nullable    = false
 }
 
 variable "scc_wp_registry_scanner_secure_api_url" {
   type        = string
   default     = "https://private.us-south.security-compliance-secure.cloud.ibm.com" # us-south.security-compliance-secure.cloud.ibm.com
-  description = "URL of the Workload Protect SCC API instance to bind the Registry Scanner to. It is used also to generate the Sysdig token."
+  description = "URL of the SCC Workload Protection API instance to bind the Registry Scanner to. It is used also to generate the Sysdig token."
   nullable    = false
 }
 
 variable "scc_wp_registry_scanner_secure_api_token" {
   type        = string
   default     = null
-  description = "API token for the Workload Protect SCC instance to bind the Registry Scanner to. If null a token will be generated using the token from var.scc_wp_registry_scanner_secure_api_iam_token or the IBM Cloud provider API key. Default to null."
+  description = "API token for the SCC Workload Protection instance to bind the Registry Scanner to. If null a token will be generated using the token from var.scc_wp_registry_scanner_secure_api_iam_token or the IBM Cloud provider API key. Default to null."
   sensitive   = true
 }
 

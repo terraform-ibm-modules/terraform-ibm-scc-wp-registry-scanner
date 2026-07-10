@@ -19,25 +19,12 @@ data "external" "generate_wp_scc_token" {
 }
 
 locals {
-  # Wait periods are overally conservative on purpose to cover majority of case.
+  # Wait periods are overall conservative on purpose to cover majority of case.
   sleep_create  = var.develop_mode ? 300 : 60
   sleep_destroy = var.develop_mode ? 180 : 30
 
   scc_wp_registry_scanner_secure_api_token = var.scc_wp_registry_scanner_secure_api_token != null ? var.scc_wp_registry_scanner_secure_api_token : data.external.generate_wp_scc_token[0].result.token
 }
-
-##############################################################################
-# Retrieve information about all the Cluster configuration files and
-# certificates to access the cluster through the kubernetes provider
-##############################################################################
-
-# data "ibm_container_cluster_config" "cluster_config" {
-#   cluster_name_id   = var.cluster_id
-#   resource_group_id = var.resource_group_id
-#   admin             = true
-#   config_dir        = "${path.module}/kubeconfig"
-#   endpoint_type     = var.cluster_config_endpoint_type != "default" ? var.cluster_config_endpoint_type : null # null represents default
-# }
 
 # getting IAM account details
 data "ibm_iam_account_settings" "iam_account_settings" {
@@ -55,6 +42,7 @@ resource "helm_release" "scc_wp_registry_scanner" {
   recreate_pods    = var.scc_wp_registry_scanner_helm_recreate_pods
   force_update     = var.scc_wp_registry_scanner_helm_force_update
   reset_values     = var.scc_wp_registry_scanner_helm_reset_values
+  atomic           = !var.develop_mode
 
   set = [{
     name  = "cronjob.schedule"

@@ -36,9 +36,18 @@ echo "Got SCC_WP_INSTANCEID value ${SCC_WP_INSTANCEID}" >> "${LOGFILE}"
 echo "Getting SCC WP TOKEN" >> "${LOGFILE}"
 
 # shellcheck disable=SC2086
-
-RES=$(curl -H "Authorization: ${IAMTOKEN}" -H "IBMInstanceID: ${SCC_WP_INSTANCEID}" ${SCC_WP_API}/api/token)
+RES=$(curl -H --fail "Authorization: ${IAMTOKEN}" -H "IBMInstanceID: ${SCC_WP_INSTANCEID}" ${SCC_WP_API}/api/token)
+# disabled shellcheck error for a sake of code simplicity
+# shellcheck disable=SC2181
+if [[ $? != "0" ]]; then
+    echo "Error: Token generation failed on ${SCC_WP_API}/api/token" >> "${LOGFILE}"
+    exit 1
+fi
 SCCTOKEN="$(echo "${RES}" | jq -r .token.key )"
+if [[ -z "${SCCTOKEN}" ]]; then
+    echo "Error extracting token from response" >> "${LOGFILE}"
+    exit 1
+fi
 
 echo "Got response" >> "${LOGFILE}"
 echo "${RES}" >> "${LOGFILE}"

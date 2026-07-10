@@ -133,7 +133,7 @@ For more information about the access you need to run Terraform IBM modules, see
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_external"></a> [external](#requirement\_external) | = 2.4.0 |
+| <a name="requirement_external"></a> [external](#requirement\_external) | >= 2.4.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 3.0.0, <4.0.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.59.0, < 3.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
@@ -148,7 +148,7 @@ No modules.
 |------|------|
 | [helm_release.scc_wp_registry_scanner](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [time_sleep.wait_helm_release](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
-| [external_external.generate_wp_scc_token](https://registry.terraform.io/providers/hashicorp/external/2.4.0/docs/data-sources/external) | data source |
+| [external_external.generate_wp_scc_token](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
 | [ibm_iam_account_settings.iam_account_settings](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_account_settings) | data source |
 | [ibm_iam_auth_token.iamtokendata](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_auth_token) | data source |
 
@@ -157,7 +157,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_develop_mode"></a> [develop\_mode](#input\_develop\_mode) | If set to true, increases the wait time for chart deployment and undeployment to facilitate cluster debugging, and prevents the `helm_release` resource from automatically rolling back changes if the helm deployment fails. | `bool` | `false` | no |
-| <a name="input_scc_wp_instance_id"></a> [scc\_wp\_instance\_id](#input\_scc\_wp\_instance\_id) | IBM Cloud instance ID for the Workload Protect SCC instance to bind the Registry Scanner to. | `string` | n/a | yes |
+| <a name="input_scc_wp_instance_id"></a> [scc\_wp\_instance\_id](#input\_scc\_wp\_instance\_id) | IBM Cloud instance ID for the SCC Workload Protection instance to bind the Registry Scanner to. | `string` | n/a | yes |
 | <a name="input_scc_wp_registry_scanner_chart_name"></a> [scc\_wp\_registry\_scanner\_chart\_name](#input\_scc\_wp\_registry\_scanner\_chart\_name) | Helm chart name for the Sysdig Registry Scanner | `string` | `"registry-scanner"` | no |
 | <a name="input_scc_wp_registry_scanner_chart_version"></a> [scc\_wp\_registry\_scanner\_chart\_version](#input\_scc\_wp\_registry\_scanner\_chart\_version) | Sysdig Registry Scanner helm chart and image version | `string` | `"1.11.0"` | no |
 | <a name="input_scc_wp_registry_scanner_cron_job_schedule"></a> [scc\_wp\_registry\_scanner\_cron\_job\_schedule](#input\_scc\_wp\_registry\_scanner\_cron\_job\_schedule) | Sysdig Registry Scanner cronjob setting. Default to run on Monday every week. | `string` | `"0 0 * * 1"` | no |
@@ -173,10 +173,10 @@ No modules.
 | <a name="input_scc_wp_registry_scanner_registry_url"></a> [scc\_wp\_registry\_scanner\_registry\_url](#input\_scc\_wp\_registry\_scanner\_registry\_url) | Url of the registry scan with Sysdig Registry Scanner. | `string` | n/a | yes |
 | <a name="input_scc_wp_registry_scanner_registry_username"></a> [scc\_wp\_registry\_scanner\_registry\_username](#input\_scc\_wp\_registry\_scanner\_registry\_username) | Username to authenticate on the registry scan with Sysdig Registry Scanner. Default to iamapikey for IAM API key authentication. | `string` | `"iamapikey"` | no |
 | <a name="input_scc_wp_registry_scanner_repository"></a> [scc\_wp\_registry\_scanner\_repository](#input\_scc\_wp\_registry\_scanner\_repository) | Sysdig Registry Scanner repository to pull helm chart and images. Default to https://charts.sysdig.com | `string` | `"https://charts.sysdig.com"` | no |
-| <a name="input_scc_wp_registry_scanner_secure_api_iam_token"></a> [scc\_wp\_registry\_scanner\_secure\_api\_iam\_token](#input\_scc\_wp\_registry\_scanner\_secure\_api\_iam\_token) | IAM token to authenticate on var.scc\_wp\_registry\_scanner\_secure\_api\_url Workload Protect SCC API instance to generate the token to authenticate on the API if var.scc\_wp\_registry\_scanner\_secure\_api\_token. If null and var.scc\_wp\_registry\_scanner\_secure\_api\_token is null the IBM Cloud provider API key is used to generate the IAM token. Default to null. | `string` | `null` | no |
-| <a name="input_scc_wp_registry_scanner_secure_api_skip_tls"></a> [scc\_wp\_registry\_scanner\_secure\_api\_skip\_tls](#input\_scc\_wp\_registry\_scanner\_secure\_api\_skip\_tls) | Flag to enable Skip TLS configuration on Sysdig Registry Scanner to ignore TLS certificate for IAM API. Default to true. | `bool` | `true` | no |
-| <a name="input_scc_wp_registry_scanner_secure_api_token"></a> [scc\_wp\_registry\_scanner\_secure\_api\_token](#input\_scc\_wp\_registry\_scanner\_secure\_api\_token) | API token for the Workload Protect SCC instance to bind the Registry Scanner to. If null a token will be generated using the token from var.scc\_wp\_registry\_scanner\_secure\_api\_iam\_token or the IBM Cloud provider API key. Default to null. | `string` | `null` | no |
-| <a name="input_scc_wp_registry_scanner_secure_api_url"></a> [scc\_wp\_registry\_scanner\_secure\_api\_url](#input\_scc\_wp\_registry\_scanner\_secure\_api\_url) | URL of the Workload Protect SCC API instance to bind the Registry Scanner to. It is used also to generate the Sysdig token. | `string` | n/a | yes |
+| <a name="input_scc_wp_registry_scanner_secure_api_iam_token"></a> [scc\_wp\_registry\_scanner\_secure\_api\_iam\_token](#input\_scc\_wp\_registry\_scanner\_secure\_api\_iam\_token) | IAM token to authenticate on var.scc\_wp\_registry\_scanner\_secure\_api\_url SCC Workload Protection API instance to generate the token to authenticate on the API if var.scc\_wp\_registry\_scanner\_secure\_api\_token. If null and var.scc\_wp\_registry\_scanner\_secure\_api\_token is null the IBM Cloud provider API key is used to generate the IAM token. Default to null. | `string` | `null` | no |
+| <a name="input_scc_wp_registry_scanner_secure_api_skip_tls"></a> [scc\_wp\_registry\_scanner\_secure\_api\_skip\_tls](#input\_scc\_wp\_registry\_scanner\_secure\_api\_skip\_tls) | Flag to enable Skip TLS configuration on Sysdig Registry Scanner to ignore TLS certificate for IAM API. Default to false. | `bool` | `false` | no |
+| <a name="input_scc_wp_registry_scanner_secure_api_token"></a> [scc\_wp\_registry\_scanner\_secure\_api\_token](#input\_scc\_wp\_registry\_scanner\_secure\_api\_token) | API token for the SCC Workload Protection instance to bind the Registry Scanner to. If null a token will be generated using the token from var.scc\_wp\_registry\_scanner\_secure\_api\_iam\_token or the IBM Cloud provider API key. Default to null. | `string` | `null` | no |
+| <a name="input_scc_wp_registry_scanner_secure_api_url"></a> [scc\_wp\_registry\_scanner\_secure\_api\_url](#input\_scc\_wp\_registry\_scanner\_secure\_api\_url) | URL of the SCC Workload Protection API instance to bind the Registry Scanner to. It is used also to generate the Sysdig token. | `string` | n/a | yes |
 
 ### Outputs
 

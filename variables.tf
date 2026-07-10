@@ -81,33 +81,33 @@ variable "scc_wp_registry_scanner_cron_job_schedule" {
 
 variable "scc_wp_instance_id" {
   type        = string
-  description = "IBM Cloud instance ID for the Workload Protect SCC instance to bind the Registry Scanner to."
+  description = "IBM Cloud instance ID for the SCC Workload Protection instance to bind the Registry Scanner to."
   nullable    = false
 }
 
 variable "scc_wp_registry_scanner_secure_api_iam_token" {
   type        = string
-  description = "IAM token to authenticate on var.scc_wp_registry_scanner_secure_api_url Workload Protect SCC API instance to generate the token to authenticate on the API if var.scc_wp_registry_scanner_secure_api_token. If null and var.scc_wp_registry_scanner_secure_api_token is null the IBM Cloud provider API key is used to generate the IAM token. Default to null."
+  description = "IAM token to authenticate on var.scc_wp_registry_scanner_secure_api_url SCC Workload Protection API instance to generate the token to authenticate on the API if var.scc_wp_registry_scanner_secure_api_token. If null and var.scc_wp_registry_scanner_secure_api_token is null the IBM Cloud provider API key is used to generate the IAM token. Default to null."
   default     = null
 }
 
 variable "scc_wp_registry_scanner_secure_api_url" {
   type        = string
-  description = "URL of the Workload Protect SCC API instance to bind the Registry Scanner to. It is used also to generate the Sysdig token."
+  description = "URL of the SCC Workload Protection API instance to bind the Registry Scanner to. It is used also to generate the Sysdig token."
   nullable    = false
 }
 
 variable "scc_wp_registry_scanner_secure_api_token" {
   type        = string
   default     = null
-  description = "API token for the Workload Protect SCC instance to bind the Registry Scanner to. If null a token will be generated using the token from var.scc_wp_registry_scanner_secure_api_iam_token or the IBM Cloud provider API key. Default to null."
+  description = "API token for the SCC Workload Protection instance to bind the Registry Scanner to. If null a token will be generated using the token from var.scc_wp_registry_scanner_secure_api_iam_token or the IBM Cloud provider API key. Default to null."
   sensitive   = true
 }
 
 variable "scc_wp_registry_scanner_secure_api_skip_tls" {
   type        = bool
-  default     = true
-  description = "Flag to enable Skip TLS configuration on Sysdig Registry Scanner to ignore TLS certificate for IAM API. Default to true."
+  default     = false
+  description = "Flag to enable Skip TLS configuration on Sysdig Registry Scanner to ignore TLS certificate for IAM API. Default to false."
   nullable    = false
 }
 
