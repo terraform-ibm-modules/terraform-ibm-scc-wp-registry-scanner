@@ -16,5 +16,10 @@ The text below should describe exactly what resources are provisioned / configur
 -->
 
 An end-to-end basic example that will provision the following:
-- A new resource group if one is not passed in.
-- A new standard plan Cloud Object Storage instance using the root level module.
+- A new resource group, if an existing one is not passed in.
+- A VPC with a single subnet and a public gateway in a single zone.
+- A single zone Red Hat OpenShift VPC cluster.
+- The SCC Workload Protection Registry Scanner deployed on the cluster through the root level module, configured to scan an IBM Cloud Container Registry. If an SCC Workload Protection API token is not passed in, one is generated for the given SCC Workload Protection instance using the IAM identity of the IBM Cloud provider.
+
+> [!NOTE]
+> The token generation script reaches the SCC Workload Protection API from the machine running Terraform, so `scc_wp_registry_scanner_secure_api_url` must point to an endpoint reachable from that machine (the public endpoint when running outside the IBM Cloud private network).
