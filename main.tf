@@ -9,13 +9,17 @@ data "ibm_iam_auth_token" "iamtokendata" {
 }
 
 data "external" "generate_wp_scc_token" {
-  count = var.scc_wp_registry_scanner_secure_api_token == null ? 1 : 0
-  program = [
-    "${path.module}/scripts/generate_wp_scc_token.sh",
-    local.scc_wp_registry_scanner_secure_api_iam_token,
-    var.scc_wp_registry_scanner_secure_api_url,
-    var.scc_wp_instance_id
-  ]
+  count   = var.scc_wp_registry_scanner_secure_api_token == null ? 1 : 0
+  program = ["bash", "${path.module}/scripts/generate_wp_scc_token.sh"]
+  # secrets are passed through the query map (delivered on stdin) rather than
+  # program arguments, which would be visible in the process table
+  query = {
+    iam_token   = sensitive(local.scc_wp_registry_scanner_secure_api_iam_token)
+    api_url     = var.scc_wp_registry_scanner_secure_api_url
+    instance_id = var.scc_wp_instance_id
+    # in develop mode the script logs the API response (token masked) for debugging
+    debug = var.develop_mode ? "true" : "false"
+  }
 }
 
 locals {
@@ -53,10 +57,6 @@ resource "helm_release" "scc_wp_registry_scanner" {
     type  = "string"
     value = var.scc_wp_registry_scanner_secure_api_url
     }, {
-    name  = "config.secureAPIToken"
-    type  = "string"
-    value = local.scc_wp_registry_scanner_secure_api_token
-    }, {
     name  = "config.secureSkipTLS"
     value = var.scc_wp_registry_scanner_secure_api_skip_tls
     }, {
@@ -67,10 +67,6 @@ resource "helm_release" "scc_wp_registry_scanner" {
     name  = "config.registryUser"
     type  = "string"
     value = var.scc_wp_registry_scanner_registry_username
-    }, {
-    name  = "config.registryPassword"
-    type  = "string"
-    value = var.scc_wp_registry_scanner_registry_password
     }, {
     name  = "config.registryType"
     type  = "string"
@@ -83,6 +79,17 @@ resource "helm_release" "scc_wp_registry_scanner" {
     name  = "config.registryAccountId"
     type  = "string"
     value = data.ibm_iam_account_settings.iam_account_settings.account_id
+    }
+  ]
+
+  set_sensitive = [{
+    name  = "config.secureAPIToken"
+    type  = "string"
+    value = local.scc_wp_registry_scanner_secure_api_token
+    }, {
+    name  = "config.registryPassword"
+    type  = "string"
+    value = var.scc_wp_registry_scanner_registry_password
     }
   ]
 }
