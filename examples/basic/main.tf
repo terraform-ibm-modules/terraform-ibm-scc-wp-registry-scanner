@@ -74,7 +74,7 @@ locals {
 
 module "ocp_base" {
   source                              = "terraform-ibm-modules/base-ocp-vpc/ibm"
-  version                             = "4.0.1"
+  version                             = "4.0.2"
   resource_group_id                   = module.resource_group.resource_group_id
   region                              = var.region
   resource_tags                       = var.resource_tags
