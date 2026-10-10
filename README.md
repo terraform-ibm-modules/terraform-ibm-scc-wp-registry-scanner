@@ -131,7 +131,7 @@ For more information about the access you need to run Terraform IBM modules, see
 ### Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
 | <a name="requirement_external"></a> [external](#requirement\_external) | >= 2.4.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 3.0.0, <4.0.0 |
@@ -145,7 +145,7 @@ No modules.
 ### Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [helm_release.scc_wp_registry_scanner](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [time_sleep.wait_helm_release](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
 | [external_external.generate_wp_scc_token](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
@@ -155,7 +155,7 @@ No modules.
 ### Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_develop_mode"></a> [develop\_mode](#input\_develop\_mode) | If set to true, increases the wait time for chart deployment and undeployment to facilitate cluster debugging, and prevents the `helm_release` resource from automatically rolling back changes if the helm deployment fails. | `bool` | `false` | no |
 | <a name="input_scc_wp_instance_id"></a> [scc\_wp\_instance\_id](#input\_scc\_wp\_instance\_id) | IBM Cloud instance ID for the SCC Workload Protection instance to bind the Registry Scanner to. | `string` | n/a | yes |
 | <a name="input_scc_wp_registry_scanner_chart_name"></a> [scc\_wp\_registry\_scanner\_chart\_name](#input\_scc\_wp\_registry\_scanner\_chart\_name) | Helm chart name for the Sysdig Registry Scanner | `string` | `"registry-scanner"` | no |
