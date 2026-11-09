@@ -133,8 +133,8 @@ For more information about the access you need to run Terraform IBM modules, see
 | Name | Version |
 | ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.9.0 |
-| <a name="requirement_external"></a> [external](#requirement\_external) | >= 2.4.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 3.0.0, <4.0.0 |
+| <a name="requirement_http"></a> [http](#requirement\_http) | >= 3.4.0, < 4.0.0 |
 | <a name="requirement_ibm"></a> [ibm](#requirement\_ibm) | >= 1.59.0, < 3.0.0 |
 | <a name="requirement_time"></a> [time](#requirement\_time) | >= 0.9.1, < 1.0.0 |
 
@@ -148,7 +148,7 @@ No modules.
 | ---- | ---- |
 | [helm_release.scc_wp_registry_scanner](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [time_sleep.wait_helm_release](https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/sleep) | resource |
-| [external_external.generate_wp_scc_token](https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external) | data source |
+| [http_http.generate_wp_scc_token](https://registry.terraform.io/providers/hashicorp/http/latest/docs/data-sources/http) | data source |
 | [ibm_iam_account_settings.iam_account_settings](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_account_settings) | data source |
 | [ibm_iam_auth_token.iamtokendata](https://registry.terraform.io/providers/ibm-cloud/ibm/latest/docs/data-sources/iam_auth_token) | data source |
 

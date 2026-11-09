@@ -8,17 +8,25 @@ locals {
 data "ibm_iam_auth_token" "iamtokendata" {
 }
 
-data "external" "generate_wp_scc_token" {
-  count   = var.scc_wp_registry_scanner_secure_api_token == null ? 1 : 0
-  program = ["bash", "${path.module}/scripts/generate_wp_scc_token.sh"]
-  # secrets are passed through the query map (delivered on stdin) rather than
-  # program arguments, which would be visible in the process table
-  query = {
-    iam_token   = sensitive(local.scc_wp_registry_scanner_secure_api_iam_token)
-    api_url     = var.scc_wp_registry_scanner_secure_api_url
-    instance_id = var.scc_wp_instance_id
-    # in develop mode the script logs the API response (token masked) for debugging
-    debug = var.develop_mode ? "true" : "false"
+data "http" "generate_wp_scc_token" {
+  count = var.scc_wp_registry_scanner_secure_api_token == null ? 1 : 0
+  url   = "${var.scc_wp_registry_scanner_secure_api_url}/api/token"
+
+  request_headers = {
+    Accept        = "application/json"
+    Authorization = sensitive(local.scc_wp_registry_scanner_secure_api_iam_token)
+    IBMInstanceID = var.scc_wp_instance_id
+  }
+
+  lifecycle {
+    postcondition {
+      condition     = self.status_code == 200
+      error_message = "Token generation failed on ${var.scc_wp_registry_scanner_secure_api_url}/api/token (HTTP status ${self.status_code})."
+    }
+    postcondition {
+      condition     = try(jsondecode(self.response_body).token.key != "", false)
+      error_message = "The response from ${var.scc_wp_registry_scanner_secure_api_url}/api/token does not contain a token."
+    }
   }
 }
 
@@ -27,7 +35,7 @@ locals {
   sleep_create  = var.develop_mode ? 300 : 60
   sleep_destroy = var.develop_mode ? 180 : 30
 
-  scc_wp_registry_scanner_secure_api_token = var.scc_wp_registry_scanner_secure_api_token != null ? var.scc_wp_registry_scanner_secure_api_token : data.external.generate_wp_scc_token[0].result.token
+  scc_wp_registry_scanner_secure_api_token = var.scc_wp_registry_scanner_secure_api_token != null ? var.scc_wp_registry_scanner_secure_api_token : jsondecode(data.http.generate_wp_scc_token[0].response_body).token.key
 }
 
 # getting IAM account details
