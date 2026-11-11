@@ -40,6 +40,14 @@ The module allows to use one of the following (in order of priority, according t
 - the IAM token to generate the Sysdig token on the path `{var.scc_wp_registry_scanner_secure_api_url}/api/token`
 - the IAM token generated from the provider IBM Cloud API key
 
+#### Upgrading
+
+The Sysdig token is now generated with the `hashicorp/http` provider instead of the `hashicorp/external` provider and a shell script. The module no longer requires `bash`, `curl` or `jq`.
+
+When upgrading, run `terraform init -upgrade` so that Terraform installs the `hashicorp/http` provider and updates the dependency lock file. This applies to every local, CI and test environment that runs the module.
+
+`var.develop_mode` no longer enables logging of the token API response, and the `/tmp/scc_wp_get_token.log` file is no longer written.
+
 <!-- The following content is automatically populated by the pre-commit hook -->
 <!-- BEGIN OVERVIEW HOOK -->
 ## Overview

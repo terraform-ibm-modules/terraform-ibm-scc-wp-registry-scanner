@@ -35,7 +35,7 @@ locals {
   sleep_create  = var.develop_mode ? 300 : 60
   sleep_destroy = var.develop_mode ? 180 : 30
 
-  scc_wp_registry_scanner_secure_api_token = var.scc_wp_registry_scanner_secure_api_token != null ? var.scc_wp_registry_scanner_secure_api_token : jsondecode(data.http.generate_wp_scc_token[0].response_body).token.key
+  scc_wp_registry_scanner_secure_api_token = sensitive(var.scc_wp_registry_scanner_secure_api_token != null ? var.scc_wp_registry_scanner_secure_api_token : jsondecode(data.http.generate_wp_scc_token[0].response_body).token.key)
 }
 
 # getting IAM account details
